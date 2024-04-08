@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        return utilisateur; // Return your custom Utilisateur instance
+        return utilisateur;
     }
     public Utilisateur loadUserById(Long userId) {
         return utilisateurRepository.findById(userId)
@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return utilisateurRepository.findAll();
 	}
     
-    public void deleteUtilisateurparid(Long id){
+    public void deleteUserById(Long id){
 		this.utilisateurRepository.deleteById(id);
 	}
     

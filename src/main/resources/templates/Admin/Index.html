@@ -26,7 +26,7 @@
 </style>
 </head>
     <body>
-<!-- Navigation-->
+<!-- ------------------------------Navigation------------------------------- -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#">
@@ -71,53 +71,8 @@
         </div>
     </div>
 </nav>
-<!-- Daret Creation Modal -->
-<div class="modal fade" id="createDaretModal" tabindex="-1" aria-labelledby="createDaretModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createDaretModalLabel">Créer une Daret</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createDaretForm">
-                    <div class="mb-3">
-                        <label for="Libelle" class="form-label">Libelle</label>
-                        <input type="text" class="form-control" id="Libelle" placeholder="daret....">
-                    </div>
-                    <div class="mb-3">
-                        <label for="nbParticipant" class="form-label">Nombre de participants</label>
-                        <input type="number" class="form-control" id="nbParticipant" placeholder="Entrez le nombre de participants">
-                    </div>
-                    <div class="mb-3">
-                        <label for="montantPeriode" class="form-label">Montant par Période</label>
-                        <input type="number" class="form-control" id="montantPeriode" placeholder="Montant par periode">
-                    </div>
-                    <div class="mb-3">
-                        <label for="periodicite" class="form-label">périodicité</label>
-                        <select class="form-select" id="periodicite">
-                            <option value="quotidienne">Quotidienne</option>
-                            <option value="hebdomadaire">Hebdomadaire</option>
-                            <option value="mensuelle">Mensuelle</option>
-                            <option value="trimestrielle">Trimestrielle</option>
-                            <option value="semestrielle">Semestrielle</option>
-                            <option value="annuelle">Annuelle</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dateDepart" class="form-label">Date de démarrage</label>
-                        <input type="date" class="form-control" id="dateDepart" placeholder="YYYY-MM-DD">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-primary" id="saveDaretBtn">Enregistrer</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- ------------------------------Navigation------------------------------- -->
+
 
 <!-- Section - Search Bar and Filters -->
 <section class="py-3">
@@ -160,10 +115,7 @@
 </section>
 
 
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; dart 2023</p></div>
-        </footer>
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
@@ -187,114 +139,8 @@
 <script>
  $(document).ready(function	 () {
 	 
-	 
- $("#saveDaretBtn").click(function () {
-    // Get values from form fields
-    var libelle = $("#Libelle").val();
-    var nbParticipant = $("#nbParticipant").val();
-    var montantPeriode = $("#montantPeriode").val();
-    var periodicite = $("#periodicite").val();
-    var dateDepart = $("#dateDepart").val();
-
-    // Create a data object
-    var data = {
-        libelle: libelle,
-        nbParticipant: nbParticipant,
-        montantPeriode: montantPeriode,
-        periodicite: periodicite,
-        dateDepart: dateDepart
-        // Add more properties as needed
-    };
-
-    // Convert the data object to JSON
-    var jsonData = JSON.stringify(data);
-
-    // AJAX request
-    $.ajax({
-        type: "POST",
-        url: "/api/daret/savedaret",
-        contentType: "application/json",
-        data: jsonData,
-        success: function (response) {
-            fetchDarets();
-            $("#createDaretModal").modal("hide");
-        },
-        error: function (xhr, status, error) {
-            // Display error messages to the user
-            if (xhr.responseJSON && Array.isArray(xhr.responseJSON)) {
-                // Concatenate error messages into a single string
-                var errorMessages = xhr.responseJSON.join("\n");
-                alert( errorMessages);
-            } else {
-                alert("An unexpected error occurred.");
-            }
-        }
-    });
-});
 
 
-
-	      // Function to update the 'daret' container with fetched data
-function updateDaretContainer(darets) {
-    var container = $('#productCardContainer .row');
-    container.empty(); // Clear existing content
-    darets.forEach(function (daret) {
-        // Create HTML for each 'daret' and append to the container
-        var html = '<div class="col mb-5">';
-        html += '<div class="card h-100">';
-        html += '<img class="card-img-top" src="/images/templateImage.jpg" alt="..." />';
-        html += '<div class="card-body p-4">';
-        html += '<div class="text-center">';
-        html += '<h5 class="fw-bolder">' + daret.libelle + '</h5>';
-
-        // Montant par période
-        html += '<div class="d-flex justify-content-center small text-warning mb-2">';
-        html += '<h5 class="fw-bolder">' + daret.montantPeriode + ' ' + 'DH' + '</h5>';
-        html += '</div>';
-
-        // Number of participants with Bootstrap icon
-        html += '<div class="d-flex justify-content-center small text-info mb-2">';
-        html += '<div class="fw-bolder"><i class="bi bi-person"></i> ' + daret.nbParticipantEnCour + '/' + daret.nbParticipant + ' participants</div>';
-        html += '</div>';
-
-        // Date of departure formatted as "dd/mm/yyyy"
-        var dateDepart = new Date(daret.dateDepart);
-        var formattedDate = dateDepart.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        html += '<div><span class="fw-bolder">Date de départ:</span> ' + formattedDate + '</div>';
-        html += '<div class="d-flex justify-content-center small text-info mb-2">';
-
-        html += '<div class="fw-bolder text-success">' + daret.status + '</div>';
-
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">';
-        html += '<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/daretsDetail?id=' + daret.id + '">Detail</a></div>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-
-        container.append(html);
-    });
-}
-
-
-
-    // Fetch and display 'daret' objects
-    function fetchDarets() {
-        $.ajax({
-            url: '/api/daret/all',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                updateDaretContainer(data);
-            },
-            error: function (error) {
-                console.error('Error fetching darets: ', error);
-            }
-        });
-    }
-    fetchDarets();
     });
 </script>
 

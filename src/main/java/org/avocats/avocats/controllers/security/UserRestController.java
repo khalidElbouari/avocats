@@ -33,7 +33,7 @@ public class UserRestController {
     
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id) {
-    	customUserDetailsService.deleteUtilisateurparid(id);
+    	customUserDetailsService.deleteUserById(id);
     }
 
 }

@@ -11,19 +11,18 @@ import java.util.Collection;
 
 @Controller
 public class RedirectController {
-
 	@GetMapping("/redirectByRole")
 	public String redirectByRole(Authentication authentication, Model model, HttpSession session) {
 	    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
+        session.setAttribute("userDetails", authentication.getPrincipal());
 	    if (hasRole(authorities, "Admin")) {
-	        // Admin user, add details to the session and show Admin profile directly
-	        session.setAttribute("userDetails", authentication.getPrincipal());
 	        return "Admin/Index";
 	    } else if (hasRole(authorities, "User")) {
-	        // Regular user, add details to the session and show User profile directly
-	        session.setAttribute("userDetails", authentication.getPrincipal());
 	        return "User/Index";
+        } else if (hasRole(authorities, "avocat")) {
+            return "avocat/Index";
+        } else if (hasRole(authorities, "secretaire")) {
+            return "secretaire/Index";
 	    } else {
 	        // Unknown role, redirect to default
 	        return "redirect:/";

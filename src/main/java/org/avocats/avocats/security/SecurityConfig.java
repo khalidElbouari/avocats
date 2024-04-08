@@ -33,14 +33,7 @@ public class SecurityConfig {
 
 
 
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
-        return new ProviderManager(daoAuthenticationProvider);
 
-    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -66,6 +59,8 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/index")
                         .permitAll())
+                //hna kangol l spring utilise customUserDetailsService machi les autres types
+                .userDetailsService(customUserDetailsService)
                 .build();
     }
 
