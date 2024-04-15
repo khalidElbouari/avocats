@@ -12,6 +12,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "utilisateurs")
+@Inheritance(strategy = InheritanceType.JOINED) // or InheritanceType.TABLE_PER_CLASS
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public class Utilisateur implements UserDetails {
 
     @Id
@@ -149,6 +151,19 @@ public class Utilisateur implements UserDetails {
 		return password;
 	}
 
-
-    
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", datenaiss=" + datenaiss +
+                ", photo='" + photo + '\'' +
+                ", profilePicture=" + profilePicture +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
+                '}';
+    }
 }

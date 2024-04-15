@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- Coding by CodingNepal || www.codingnepalweb.com -->
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ar">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,18 +45,14 @@
                 <img src="/images/avocats.png" alt="" class="profile-picture" />
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <h6 class="dropdown-header"></h6>
-                <input type="hidden" id="userIdInput" />
-                <h6 class="dropdown-header"></h6>
+                <h6 class="dropdown-header" th:text="${session.userDetails.nom + ' ' + session.userDetails.prenom}"></h6>
+                <h6 class="dropdown-header" th:each="role : ${session.userDetails.roles}" th:text="${role.name}"></h6>
+                <input type="hidden" id="userIdInput" th:value="${session.userDetails.id}" />
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">View Profile</a>
+                <a class="dropdown-item" th:href="@{/Users}">Utilisateurs</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Mes Darets</a>
-                <a class="dropdown-item">Mes Demandes</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#createDemandeModal">Faire une Demande ?</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Deconnexion</a>
+                <a class="dropdown-item" th:href="@{/logout}">Deconnexion</a>
             </div>
         </div>
     </div>

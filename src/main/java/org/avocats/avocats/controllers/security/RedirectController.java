@@ -16,7 +16,7 @@ public class RedirectController {
 	    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         session.setAttribute("userDetails", authentication.getPrincipal());
 	    if (hasRole(authorities, "Admin")) {
-	        return "oldIndex";
+	        return "Admin/index";
 	    } else if (hasRole(authorities, "User")) {
 	        return "User/Index";
         } else if (hasRole(authorities, "avocat")) {
